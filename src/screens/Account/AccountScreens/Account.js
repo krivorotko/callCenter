@@ -123,7 +123,7 @@ const Account = () => {
 					</View>
 				</View>
 
-				<View style={{ marginTop: 16 }}>
+				<View style={{ marginTop: 16, marginBottom: 40 }}>
 					<Text style={styles.inputTitle}>E-mail</Text>
 					<TextInput placeholder="test@test.ru" style={styles.input} />
 				</View>

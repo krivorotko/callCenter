@@ -6,7 +6,7 @@ import ShiftsScreenNavigator from './tabs/Shifts';
 import TeamScreenNavigator from './tabs/Team';
 import StatsScreenNavigator from './tabs/Stats';
 import AccountScreenNavigator from './tabs/Account';
-import { Image, Text, View } from 'react-native';
+import { Image, Platform, Text, View } from 'react-native';
 
 const Tabs = createBottomTabNavigator();
 
@@ -57,20 +57,22 @@ const TabBarIcon = ({ name, focused }) => {
 
 	const icon = getIcon();
 
-	return <Image source={icon} style={styleIcon[name]} />;
+	return <Image source={icon} style={[styleIcon[name], { marginBottom: 10 }]} />;
 };
 
 export const TabBarLabel = ({ name, focused }) => {
 	return (
-		<Text
-			style={{
-				fontSize: 10,
-				marginBottom: 1.5,
-				color: focused ? '#fff' : '#105C79',
-			}}
-		>
-			{name}
-		</Text>
+		<View>
+			<Text
+				style={{
+					marginTop: 5,
+					fontSize: 10,
+					color: focused ? '#fff' : '#105C79',
+				}}
+			>
+				{name}
+			</Text>
+		</View>
 	);
 };
 
@@ -89,8 +91,8 @@ const TabsScreens = () => {
 				inactiveTintColor: 'lightgray',
 				style: {
 					backgroundColor: '#1FB8F1',
-					paddingBottom: 15,
-					paddingTop: 18,
+					paddingBottom: Platform.OS === 'ios' ? 15 : 10,
+					paddingTop: Platform.OS === 'ios' ? 18 : 20,
 				},
 			}}
 		>

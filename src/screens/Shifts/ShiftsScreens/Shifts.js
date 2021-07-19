@@ -11,18 +11,9 @@ const styles = StyleSheet.create({
 		backgroundColor: 'white',
 		paddingTop: 0,
 	},
-	shadow: {
-		marginBottom: 2,
-		borderRadius: 8,
-		shadowColor: '#000',
-		shadowOffset: {
-			width: 0,
-			height: 2,
-		},
-		shadowOpacity: 0.25,
-		shadowRadius: 3.84,
-	},
 	shiftContainer: {
+		marginHorizontal: 1,
+		elevation: 1,
 		marginBottom: 2,
 		shadowColor: '#000',
 		shadowOffset: {
