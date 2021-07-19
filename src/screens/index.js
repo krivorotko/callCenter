@@ -1,0 +1,15 @@
+export default Object.freeze({
+	MainRoot: 'MainRoot',
+	HomeRoot: 'HomeRoot',
+	StatsRoot: 'StatsRoot',
+	ShiftsRoot: 'ShiftsRoot',
+	AccountsRoot: 'AccountsRoot',
+	TeamRoot: 'TeamRoot',
+	Home: 'Home',
+	Shifts: 'Shifts',
+	Stats: 'Stats',
+	Team: 'Team',
+	Account: 'Account',
+	TeamMessage: 'TeamMessage',
+	BottomModal: 'BottomModal',
+});

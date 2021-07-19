@@ -1,0 +1,42 @@
+import React from 'react';
+import { createStackNavigator } from '@react-navigation/stack';
+import StatsScreens from '../../screens/Stats';
+import screens from '../../screens';
+import { Dimensions, View, StyleSheet } from 'react-native';
+import Typography from '../../components/Text/Typography';
+import styleConstants from '../../styles/styleConstants';
+
+const StatsStack = createStackNavigator();
+
+const { width } = Dimensions.get('window');
+const spaceTakenByIcons = 74 + 32;
+
+const pageOptions = ({ route }) => {
+	return {
+		headerTitle: children => (
+			<View style={{ maxWidth: width - spaceTakenByIcons }}>
+				<Typography numberOfLines={1} variant="h3" color="white">
+					{route.name}
+				</Typography>
+			</View>
+		),
+		headerRight: () => <></>,
+		headerBackground: () => (
+			<View style={{ ...StyleSheet.absoluteFill, backgroundColor: styleConstants.MAIN_COLOR }} />
+		),
+	};
+};
+
+const StatsScreenNavigator = () => {
+	return (
+		<StatsStack.Navigator>
+			<StatsStack.Screen
+				name={screens.Stats}
+				component={StatsScreens.Stats}
+				options={pageOptions}
+			/>
+		</StatsStack.Navigator>
+	);
+};
+
+export default StatsScreenNavigator;
