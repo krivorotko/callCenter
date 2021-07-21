@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
 import Typography from '../../../components/Text/Typography';
-import ShadowView from 'react-native-simple-shadow-view/src/ShadowView';
 import screens from '../../index';
 import { useNavigation } from '@react-navigation/native';
 
@@ -45,7 +44,7 @@ const ItemMember = ({ item, onPress }) => {
 	const user = require('../../../assets/icons/user.png');
 
 	return (
-		<ShadowView style={styles.shadow}>
+		<View style={styles.shadow}>
 			<TouchableOpacity style={styles.member} onPress={onPress}>
 				<Image source={user} style={styles.memberIcon} />
 				<View style={styles.memberInfo}>
@@ -53,7 +52,7 @@ const ItemMember = ({ item, onPress }) => {
 					<Typography variant="h3">Jonson</Typography>
 				</View>
 			</TouchableOpacity>
-		</ShadowView>
+		</View>
 	);
 };
 

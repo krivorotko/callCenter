@@ -1,9 +1,17 @@
-import React from 'react';
-import { StyleSheet, SafeAreaView, View, FlatList, TouchableOpacity, Image } from 'react-native';
-import ScrollPage from '../../../hoc/ScrollPage';
+import React, { useEffect, useState } from 'react';
+import {
+	StyleSheet,
+	SafeAreaView,
+	View,
+	FlatList,
+	TouchableOpacity,
+	Image,
+	ActivityIndicator,
+} from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import shiftActions from '../../../store/shifts/actions';
 import Typography from '../../../components/Text/Typography';
 import CustomButton from '../../../components/CustomButton';
-import ShadowView from 'react-native-simple-shadow-view/src/ShadowView';
 
 const styles = StyleSheet.create({
 	container: {
@@ -88,12 +96,38 @@ const ShiftItem = item => {
 };
 
 const Shifts = () => {
-	const shifts = [{}, {}, {}, {}, {}, {}, {}, {}];
+	const dispatch = useDispatch();
+	const [mode, setMode] = useState('Assigned');
+	const [end, setEnd] = useState('2021-07-21T11:38:59');
+	const { items, isFetching } = useSelector(state => state.shifts);
+	console.log('shifts: ', items, 'isFetching: ', isFetching);
+
+	const fetchShifts = () => {
+		dispatch(shiftActions.getShifts({ mode, end }));
+	};
+
+	useEffect(() => {
+		fetchShifts();
+	}, [dispatch, mode, end]);
+
 	return (
 		<SafeAreaView style={styles.container}>
-			<ScrollPage>
-				<FlatList style={{ marginTop: 19 }} data={shifts} renderItem={ShiftItem} />
-			</ScrollPage>
+			<FlatList
+				style={{ marginTop: 19 }}
+				data={items}
+				onRefresh={fetchShifts}
+				onEndReachedThreshold={0.25}
+				refreshing={false}
+				renderItem={({ item }) => <ShiftItem item={item} />}
+				ListFooterComponent={isFetching && <ActivityIndicator color={'#1FB8F1'} size="large" />}
+				ListEmptyComponent={() =>
+					!isFetching ? (
+						<Typography center variant="h4">
+							Нет данных
+						</Typography>
+					) : null
+				}
+			/>
 		</SafeAreaView>
 	);
 };

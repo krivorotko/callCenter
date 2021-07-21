@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
 import Typography from '../../../components/Text/Typography';
-import ShadowView from 'react-native-simple-shadow-view';
 
 const styles = StyleSheet.create({
 	container: {},
@@ -32,7 +31,7 @@ const styles = StyleSheet.create({
 const ItemMember = item => {
 	const graphicIcon = require('../../../assets/icons/graphic.png');
 	return (
-		<ShadowView style={styles.shadow}>
+		<View style={styles.shadow}>
 			<TouchableOpacity style={styles.member}>
 				<Typography variant="body1">Advense score</Typography>
 				<View
@@ -48,7 +47,7 @@ const ItemMember = item => {
 					<Image source={graphicIcon} style={styles.image} />
 				</View>
 			</TouchableOpacity>
-		</ShadowView>
+		</View>
 	);
 };
 
