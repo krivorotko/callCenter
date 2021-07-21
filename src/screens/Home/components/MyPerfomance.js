@@ -1,12 +1,14 @@
 import React from 'react';
 import { View, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
 import Typography from '../../../components/Text/Typography';
+import { useSelector } from 'react-redux';
+import { getMetricsSelector } from '../../../store/metrics/selectors';
 
 const styles = StyleSheet.create({
 	container: {},
 	shadow: {},
 	member: {
-		marginBottom: 10,
+		marginVertical: 3,
 		backgroundColor: '#fff',
 		borderRadius: 8,
 		shadowColor: '#000',
@@ -28,12 +30,12 @@ const styles = StyleSheet.create({
 	},
 });
 
-const ItemMember = item => {
+const ItemMember = ({ item }) => {
 	const graphicIcon = require('../../../assets/icons/graphic.png');
 	return (
 		<View style={styles.shadow}>
 			<TouchableOpacity style={styles.member}>
-				<Typography variant="body1">Advense score</Typography>
+				<Typography variant="body1">{item['Key']}</Typography>
 				<View
 					style={{
 						flexDirection: 'row',
@@ -52,18 +54,19 @@ const ItemMember = item => {
 };
 
 const MyPerfomance = ({ style }) => {
-	const members = [{ id: 1 }, { id: 3 }, { id: 2 }];
+	const metrics = useSelector(getMetricsSelector);
+
 	return (
 		<View style={[styles.container, style]}>
 			<Typography variant="large">My Perfomance</Typography>
 			<FlatList
 				style={{ marginHorizontal: -16, marginTop: 11 }}
 				horizontal
-				data={members}
+				data={metrics}
 				renderItem={({ item, index }) => {
 					return <ItemMember item={item} />;
 				}}
-				keyExtractor={item => `${item.id}`}
+				keyExtractor={item => `${item.key}`}
 				showsHorizontalScrollIndicator={false}
 				initialNumToRender={2}
 			/>

@@ -3,12 +3,12 @@ import { View, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-nativ
 import Typography from '../../../components/Text/Typography';
 import screens from '../../index';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
+import { getMemberListSelector } from '../../../store/chat/selectors';
 
 const styles = StyleSheet.create({
 	container: {},
-	shadow: {
-		marginBottom: 2,
-		borderRadius: 8,
+	member: {
 		shadowColor: '#000',
 		shadowOffset: {
 			width: 0,
@@ -17,8 +17,7 @@ const styles = StyleSheet.create({
 		elevation: 1,
 		shadowOpacity: 0.25,
 		shadowRadius: 3.84,
-	},
-	member: {
+		marginVertical: 3,
 		backgroundColor: '#F3F3F3',
 		borderRadius: 50,
 		flexDirection: 'row',
@@ -42,23 +41,27 @@ const styles = StyleSheet.create({
 
 const ItemMember = ({ item, onPress }) => {
 	const user = require('../../../assets/icons/user.png');
+	const [firstName, lastName] = item['UserName'].split(' ');
 
 	return (
-		<View style={styles.shadow}>
-			<TouchableOpacity style={styles.member} onPress={onPress}>
-				<Image source={user} style={styles.memberIcon} />
-				<View style={styles.memberInfo}>
-					<Typography variant="h3">Tameke</Typography>
-					<Typography variant="h3">Jonson</Typography>
-				</View>
-			</TouchableOpacity>
-		</View>
+		<TouchableOpacity style={styles.member} onPress={onPress}>
+			<Image source={user} style={styles.memberIcon} />
+			<View style={styles.memberInfo}>
+				<Typography numberOfLines={1} variant="h3">
+					{firstName}
+				</Typography>
+				<Typography numberOfLines={1} variant="h3">
+					{lastName}
+				</Typography>
+			</View>
+		</TouchableOpacity>
 	);
 };
 
 const TeamMembers = ({ style }) => {
 	const navigation = useNavigation();
-	const members = [{ id: 1 }, { id: 3 }, { id: 2 }];
+	const members = useSelector(getMemberListSelector);
+
 	const handleItemPress = () => {
 		navigation.navigate(screens.TeamRoot, {
 			screen: screens.TeamMessage,
@@ -74,7 +77,12 @@ const TeamMembers = ({ style }) => {
 				renderItem={({ item, index }) => {
 					return <ItemMember onPress={handleItemPress} item={item} />;
 				}}
-				keyExtractor={item => `${item.id}_5`}
+				ListEmptyComponent={() => (
+					<Typography style={{ marginHorizontal: 16 }} center variant="h4">
+						Нет данных
+					</Typography>
+				)}
+				keyExtractor={item => `${item['UserName']}`}
 				showsHorizontalScrollIndicator={false}
 				initialNumToRender={2}
 			/>

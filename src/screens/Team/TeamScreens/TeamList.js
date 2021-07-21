@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
 	StyleSheet,
 	SafeAreaView,
@@ -7,11 +7,13 @@ import {
 	FlatList,
 	TouchableOpacity,
 	Image,
+	ActivityIndicator,
 } from 'react-native';
-import ScrollPage from '../../../hoc/ScrollPage';
 import Typography from '../../../components/Text/Typography';
 import SpacerLine from '../../../components/SpacerLine';
 import screens from '../../index';
+import { useDispatch, useSelector } from 'react-redux';
+import chatActions from '../../../store/chat/actions';
 
 const styles = StyleSheet.create({
 	container: {
@@ -21,7 +23,8 @@ const styles = StyleSheet.create({
 	},
 	shiftContainer: {
 		flexDirection: 'row',
-		marginTop: 16,
+		paddingVertical: 11,
+		paddingHorizontal: 16,
 		justifyContent: 'space-between',
 	},
 	shiftIcon: {
@@ -64,14 +67,21 @@ const styles = StyleSheet.create({
 const TeamListItem = ({ item, onPress = () => {} }) => {
 	const messages = require('../../../assets/icons/messages.png');
 	const user = require('../../../assets/icons/user.png');
+	const isActive = item['State'] === 'isActive';
+
 	return (
-		<TouchableOpacity style={styles.shiftContainer} onPress={onPress}>
-			<View style={{ flexDirection: 'row' }}>
+		<TouchableOpacity
+			style={[styles.shiftContainer, !isActive && { backgroundColor: '#F3F3F3' }]}
+			onPress={onPress}
+		>
+			<View style={{ flexDirection: 'row', width: 170 }}>
 				<Image style={styles.shiftIcon} source={user} />
-				<View style={styles.online} />
+				<View style={[isActive && styles.online, !isActive && styles.offline]} />
 				<View>
-					<Typography variant="h3">Tameke Jonson</Typography>
-					<Typography>Tameke Jonson</Typography>
+					<Typography numberOfLines={1} variant="h3">
+						{item.UserName}
+					</Typography>
+					<Typography>Нет данных</Typography>
 				</View>
 			</View>
 			<View styles={styles.messageWrapper}>
@@ -83,35 +93,47 @@ const TeamListItem = ({ item, onPress = () => {} }) => {
 };
 
 const TeamList = ({ navigation }) => {
+	const dispatch = useDispatch();
+	const { isFetching, items } = useSelector(state => state.chats);
+
+	const getMemberList = () => {
+		dispatch(chatActions.getMemberList());
+	};
+
+	useEffect(() => {
+		getMemberList();
+	}, [dispatch]);
+
 	const handleMessagePress = () => {
 		navigation.navigate(screens.TeamRoot, {
 			screen: screens.TeamMessage,
 		});
 	};
 
-	const shifts = [
-		{ id: 1 },
-		{ id: 2 },
-		{ id: 3 },
-		{ id: 4 },
-		{ id: 5 },
-		{ id: 6 },
-		{ id: 7 },
-		{ id: 8 },
-	];
 	return (
 		<SafeAreaView style={styles.container}>
-			<ScrollPage>
-				<FlatList
-					style={{ marginTop: 19 }}
-					data={shifts}
-					renderItem={({ item, index }) => (
-						<TeamListItem item={item} onPress={handleMessagePress} />
-					)}
-					ItemSeparatorComponent={SpacerLine}
-					keyExtractor={item => `${Date.now() + '_' + item.id}`}
-				/>
-			</ScrollPage>
+			<FlatList
+				style={{
+					marginTop: 9,
+				}}
+				data={items}
+				onRefresh={getMemberList}
+				onEndReachedThreshold={0.25}
+				refreshing={false}
+				renderItem={({ item, index }) => <TeamListItem item={item} onPress={handleMessagePress} />}
+				ListFooterComponent={isFetching && <ActivityIndicator color={'#1FB8F1'} size="large" />}
+				ListEmptyComponent={() =>
+					!isFetching ? (
+						<Typography center variant="h4">
+							Нет данных
+						</Typography>
+					) : null
+				}
+				ItemSeparatorComponent={() => (
+					<SpacerLine style={{ height: 1, marginLeft: 18, padding: 0, margin: 0 }} />
+				)}
+				keyExtractor={item => `${item.UserName}`}
+			/>
 		</SafeAreaView>
 	);
 };

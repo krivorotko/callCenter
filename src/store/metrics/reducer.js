@@ -3,19 +3,19 @@ import types from './types';
 
 const initialState = Immutable({
 	isFetching: false,
-	items: [],
+	list: [],
 });
 
 export default (state = initialState, action) => {
 	switch (action.type) {
-		case types.GET_SHIFTS_REQUEST:
+		case types.GET_METRICS_REQUEST:
 			return state.set('isFetching', true);
-		case types.GET_SHIFTS_SUCCESS:
+		case types.GET_METRICS_RESPONSE:
 			return state.merge({
 				isFetching: false,
-				items: action.payload,
+				list: action.payload,
 			});
-		case types.GET_SHIFTS_FAILURE:
+		case types.GET_METRICS_FAILURE:
 			return state.set('isFetching', false);
 		default:
 			return state;

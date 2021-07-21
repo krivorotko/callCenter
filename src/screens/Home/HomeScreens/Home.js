@@ -1,5 +1,5 @@
-import React from 'react';
-import { StyleSheet, SafeAreaView, View, Button, TextInput } from 'react-native';
+import React, { useEffect } from 'react';
+import { StyleSheet, SafeAreaView, View, Button, TextInput, ActivityIndicator } from 'react-native';
 import Typography from '../../../components/Text/Typography';
 import ScrollPage from '../../../hoc/ScrollPage';
 import AvatarUser from '../components/AvatarUser';
@@ -10,6 +10,13 @@ import TeamMembers from '../components/TeamMembers';
 import MyPerfomance from '../components/MyPerfomance';
 import { modalTypes } from '../../Modals/modalTypes';
 import screens from '../../index';
+import { useDispatch, useSelector } from 'react-redux';
+import metricsActions from '../../../store/metrics/actions';
+import chatsActions from '../../../store/chat/actions';
+import authActions from '../../../store/auth/actions';
+import { getMetricsIsFetching } from '../../../store/metrics/selectors';
+import { getIsFetchingChatSelector } from '../../../store/chat/selectors';
+import { getUserIsFetching, getUserSelector } from '../../../store/auth/selectors';
 
 const user = {
 	image: '',
@@ -29,6 +36,18 @@ const informations = [
 ];
 
 const HomeScreen = ({ navigation }) => {
+	const dispatch = useDispatch();
+	const isFetchingMetrics = useSelector(getMetricsIsFetching);
+	const isFetchingMemberChat = useSelector(getIsFetchingChatSelector);
+	const isFetchingUser = useSelector(getUserIsFetching);
+	const user = useSelector(getUserSelector);
+
+	useEffect(() => {
+		dispatch(metricsActions.getMetrics());
+		dispatch(chatsActions.getMemberList());
+		dispatch(authActions.getWhoami());
+	}, [dispatch]);
+
 	const handleShiftChangePress = () => {
 		navigation.navigate(screens.BottomModal, {
 			modalType: modalTypes.SHIFT_CHANGE,
@@ -41,12 +60,12 @@ const HomeScreen = ({ navigation }) => {
 				<View style={styles.userInfo}>
 					<AvatarUser style={{ marginRight: 7 }} />
 					<View>
-						<Typography variant="large">{user.firstName}</Typography>
-						<Typography variant="large">{user.lastName}</Typography>
+						<Typography variant="large">{user['FirstName']}</Typography>
+						<Typography variant="large">{user['LastName']}</Typography>
 					</View>
 				</View>
 				<Typography variant="h3" style={styles.description}>
-					Call center agent
+					{user['Department'] || 'Нет данных'}
 				</Typography>
 				<SpacerLine />
 				{informations.map(information => (
@@ -65,13 +84,22 @@ const HomeScreen = ({ navigation }) => {
 					style={styles.input}
 				/>
 				<SpacerLine style={{ marginTop: 15 }} />
-				<TeamMembers
-					style={{
-						marginTop: 10,
-					}}
-				/>
+				{isFetchingMemberChat ? (
+					<ActivityIndicator color={'#1FB8F1'} size="large" />
+				) : (
+					<TeamMembers
+						style={{
+							marginTop: 10,
+						}}
+					/>
+				)}
+
 				<SpacerLine style={{ marginTop: 15 }} />
-				<MyPerfomance style={{ marginBottom: 54 }} />
+				{isFetchingMetrics ? (
+					<ActivityIndicator color={'#1FB8F1'} size="large" />
+				) : (
+					<MyPerfomance style={{ marginBottom: 54 }} />
+				)}
 			</ScrollPage>
 		</SafeAreaView>
 	);

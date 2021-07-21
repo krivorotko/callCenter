@@ -100,7 +100,6 @@ const Shifts = () => {
 	const [mode, setMode] = useState('Assigned');
 	const [end, setEnd] = useState('2021-07-21T11:38:59');
 	const { items, isFetching } = useSelector(state => state.shifts);
-	console.log('shifts: ', items, 'isFetching: ', isFetching);
 
 	const fetchShifts = () => {
 		dispatch(shiftActions.getShifts({ mode, end }));
@@ -113,7 +112,7 @@ const Shifts = () => {
 	return (
 		<SafeAreaView style={styles.container}>
 			<FlatList
-				style={{ marginTop: 19 }}
+				style={{ marginTop: 19, marginHorizontal: 16 }}
 				data={items}
 				onRefresh={fetchShifts}
 				onEndReachedThreshold={0.25}

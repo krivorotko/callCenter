@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
 	SafeAreaView,
 	View,
@@ -9,10 +9,12 @@ import {
 	FlatList,
 	KeyboardAvoidingView,
 	Platform,
+	ActivityIndicator,
 } from 'react-native';
-import ScrollPage from '../../../hoc/ScrollPage';
 import Typography from '../../../components/Text/Typography';
 import CustomButton from '../../../components/CustomButton';
+import { useDispatch, useSelector } from 'react-redux';
+import chatActions from '../../../store/chat/actions';
 
 const styles = StyleSheet.create({
 	container: {
@@ -56,7 +58,7 @@ const styles = StyleSheet.create({
 
 const RenderMessage = ({ message }) => {
 	const iconMyMessage = require('../../../assets/icons/myMessage.png');
-	const isMyMessage = message.myMessage;
+	const isMyMessage = false;
 	const backgroundColor = isMyMessage ? '#E0F7FF' : '#fff';
 	return (
 		<View
@@ -76,17 +78,6 @@ const RenderMessage = ({ message }) => {
 					borderRadius: 5,
 				}}
 			>
-				{/*<Image*/}
-				{/*	source={iconMyMessage}*/}
-				{/*	style={{*/}
-				{/*		width: 30,*/}
-				{/*		height: 26,*/}
-				{/*		backgroundColor: 'transparent',*/}
-				{/*		zIndex: 1,*/}
-				{/*		right: 0,*/}
-				{/*		position: 'absolute',*/}
-				{/*	}}*/}
-				{/*/>*/}
 				<Text
 					style={{
 						fontSize: 16,
@@ -94,7 +85,7 @@ const RenderMessage = ({ message }) => {
 						lineHeight: 19,
 					}}
 				>
-					{message.message}
+					{message['Message']}
 				</Text>
 				<View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
 					<Text style={{ fontWeight: '400', fontSize: 12, color: '#B5B5B5', marginTop: 5 }}>
@@ -108,18 +99,21 @@ const RenderMessage = ({ message }) => {
 
 const TeamMessages = () => {
 	const iconUser = require('../../../assets/icons/user.png');
-	const [messages, setMessages] = useState([
-		{
-			message: 'Hello',
-			myMessage: false,
-		},
-	]);
+	const dispatch = useDispatch();
+	const { messages, isFetching } = useSelector(state => state.chats);
 	const [message, setMessage] = useState('');
 
 	const handleAddMessage = () => {
-		setMessages([...messages, { message, myMessage: true }]);
 		setMessage('');
 	};
+
+	const fetchMessages = () => {
+		dispatch(chatActions.getChatList());
+	};
+
+	useEffect(() => {
+		fetchMessages();
+	}, [dispatch]);
 
 	return (
 		<SafeAreaView style={styles.container}>
@@ -141,13 +135,23 @@ const TeamMessages = () => {
 						<Text style={styles.onlineText}>online</Text>
 					</View>
 				</View>
-				<ScrollPage style={{ backgroundColor: '#F3F3F3' }}>
-					<FlatList
-						data={messages}
-						keyExtractor={item => item.message}
-						renderItem={props => <RenderMessage message={props.item} />}
-					/>
-				</ScrollPage>
+				<FlatList
+					style={{ backgroundColor: '#F3F3F3', paddingTop: 10 }}
+					data={messages}
+					onRefresh={fetchMessages}
+					onEndReachedThreshold={0.25}
+					refreshing={false}
+					keyExtractor={item => item['Timestamp']}
+					renderItem={({ item }) => <RenderMessage message={item} />}
+					ListFooterComponent={isFetching && <ActivityIndicator color={'#1FB8F1'} size="large" />}
+					ListEmptyComponent={() =>
+						!isFetching ? (
+							<Typography center variant="h4">
+								Сообщений нет
+							</Typography>
+						) : null
+					}
+				/>
 				<View style={{ flexDirection: 'row' }}>
 					<TextInput
 						value={message}
