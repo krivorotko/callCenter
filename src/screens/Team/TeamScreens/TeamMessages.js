@@ -15,6 +15,7 @@ import Typography from '../../../components/Text/Typography';
 import CustomButton from '../../../components/CustomButton';
 import { useDispatch, useSelector } from 'react-redux';
 import chatActions from '../../../store/chat/actions';
+import { getUserChat } from '../../../store/chat/selectors';
 
 const styles = StyleSheet.create({
 	container: {
@@ -43,8 +44,21 @@ const styles = StyleSheet.create({
 		backgroundColor: '#1CAF20',
 		marginRight: 4,
 	},
+	offline: {
+		width: 10,
+		height: 10,
+		borderRadius: 50,
+		backgroundColor: '#727171',
+		marginRight: 4,
+	},
 	onlineText: {
 		color: '#1CAF20',
+		fontSize: 12,
+		fontWeight: '400',
+		marginRight: 7,
+	},
+	offlineText: {
+		color: '#727171',
 		fontSize: 12,
 		fontWeight: '400',
 		marginRight: 7,
@@ -64,6 +78,7 @@ const RenderMessage = ({ message }) => {
 		<View
 			style={{
 				marginTop: 15,
+				marginHorizontal: 28,
 				flexDirection: 'row',
 				justifyContent: isMyMessage ? 'flex-end' : 'flex-start',
 			}}
@@ -100,6 +115,8 @@ const RenderMessage = ({ message }) => {
 const TeamMessages = () => {
 	const iconUser = require('../../../assets/icons/user.png');
 	const dispatch = useDispatch();
+	const userChat = useSelector(getUserChat);
+	const hasOnline = userChat['State'] === 'Active';
 	const { messages, isFetching } = useSelector(state => state.chats);
 	const [message, setMessage] = useState('');
 
@@ -125,15 +142,28 @@ const TeamMessages = () => {
 				<View style={styles.userInfo}>
 					<View style={{ flexDirection: 'row' }}>
 						<Image source={iconUser} style={styles.userIcon} />
-						<View>
-							<Typography variant="h3">Tameke Jonson</Typography>
-							<Typography>Tameke Jonson</Typography>
+						<View style={{ width: 150 }}>
+							<Typography numberOfLines={1} variant="h3">
+								{userChat['UserName']}
+							</Typography>
+							<Typography style={{ width: 150 }} numberOfLines={1}>
+								{userChat['Login']}
+							</Typography>
 						</View>
 					</View>
-					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-						<View style={styles.online} />
-						<Text style={styles.onlineText}>online</Text>
-					</View>
+					{hasOnline && (
+						<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+							<View style={styles.online} />
+							<Text style={styles.onlineText}>online</Text>
+						</View>
+					)}
+
+					{!hasOnline && (
+						<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+							<View style={styles.offline} />
+							<Text style={styles.offlineText}>offline</Text>
+						</View>
+					)}
 				</View>
 				<FlatList
 					style={{ backgroundColor: '#F3F3F3', paddingTop: 10 }}

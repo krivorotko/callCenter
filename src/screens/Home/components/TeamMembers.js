@@ -3,8 +3,9 @@ import { View, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-nativ
 import Typography from '../../../components/Text/Typography';
 import screens from '../../index';
 import { useNavigation } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getMemberListSelector } from '../../../store/chat/selectors';
+import chatActions from '../../../store/chat/actions';
 
 const styles = StyleSheet.create({
 	container: {},
@@ -59,10 +60,12 @@ const ItemMember = ({ item, onPress }) => {
 };
 
 const TeamMembers = ({ style }) => {
+	const dispatch = useDispatch();
 	const navigation = useNavigation();
 	const members = useSelector(getMemberListSelector);
 
-	const handleItemPress = () => {
+	const handleItemPress = user => {
+		dispatch(chatActions.setUserChat(user));
 		navigation.navigate(screens.TeamRoot, {
 			screen: screens.TeamMessage,
 		});
@@ -75,7 +78,7 @@ const TeamMembers = ({ style }) => {
 				horizontal
 				data={members}
 				renderItem={({ item, index }) => {
-					return <ItemMember onPress={handleItemPress} item={item} />;
+					return <ItemMember onPress={() => handleItemPress(item)} item={item} />;
 				}}
 				ListEmptyComponent={() => (
 					<Typography style={{ marginHorizontal: 16 }} center variant="h4">

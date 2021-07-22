@@ -10,6 +10,7 @@ export default Object.freeze({
 	Stats: 'Stats',
 	Team: 'Team',
 	Account: 'Account',
+	AccountPerfomance: 'AccountPerfomance',
 	TeamMessage: 'TeamMessage',
 	BottomModal: 'BottomModal',
 });

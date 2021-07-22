@@ -104,7 +104,8 @@ const TeamList = ({ navigation }) => {
 		getMemberList();
 	}, [dispatch]);
 
-	const handleMessagePress = () => {
+	const handleMessagePress = user => {
+		dispatch(chatActions.setUserChat(user));
 		navigation.navigate(screens.TeamRoot, {
 			screen: screens.TeamMessage,
 		});
@@ -120,7 +121,9 @@ const TeamList = ({ navigation }) => {
 				onRefresh={getMemberList}
 				onEndReachedThreshold={0.25}
 				refreshing={false}
-				renderItem={({ item, index }) => <TeamListItem item={item} onPress={handleMessagePress} />}
+				renderItem={({ item, index }) => (
+					<TeamListItem item={item} onPress={() => handleMessagePress(item)} />
+				)}
 				ListFooterComponent={isFetching && <ActivityIndicator color={'#1FB8F1'} size="large" />}
 				ListEmptyComponent={() =>
 					!isFetching ? (

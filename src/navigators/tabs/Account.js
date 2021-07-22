@@ -35,6 +35,11 @@ const AccountScreenNavigator = () => {
 				component={AccountScreens.Account}
 				options={pageOptions}
 			/>
+			<AccountStack.Screen
+				name={screens.AccountPerfomance}
+				component={AccountScreens.AccountPerfomance}
+				options={pageOptions}
+			/>
 		</AccountStack.Navigator>
 	);
 };

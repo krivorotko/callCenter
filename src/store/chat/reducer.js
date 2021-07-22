@@ -5,6 +5,7 @@ const initialState = Immutable({
 	isFetching: false,
 	items: [],
 	chats: [],
+	userChat: {},
 });
 
 export default (state = initialState, action) => {
@@ -28,6 +29,8 @@ export default (state = initialState, action) => {
 			});
 		case types.GET_CHAT_LIST_FAILURE:
 			return state.set('isFetching', false);
+		case types.SET_USER_CHAT:
+			return state.set('userChat', action.payload);
 		default:
 			return state;
 	}

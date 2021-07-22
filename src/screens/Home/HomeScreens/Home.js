@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, SafeAreaView, View, Button, TextInput, ActivityIndicator } from 'react-native';
 import Typography from '../../../components/Text/Typography';
 import ScrollPage from '../../../hoc/ScrollPage';
@@ -17,6 +17,7 @@ import authActions from '../../../store/auth/actions';
 import { getMetricsIsFetching } from '../../../store/metrics/selectors';
 import { getIsFetchingChatSelector } from '../../../store/chat/selectors';
 import { getUserIsFetching, getUserSelector } from '../../../store/auth/selectors';
+import ShiftModal from '../../Modals/components/ShiftModal';
 
 const user = {
 	image: '',
@@ -36,10 +37,11 @@ const informations = [
 ];
 
 const HomeScreen = ({ navigation }) => {
+	const [isShowShiftChange, setIsShowShiftChange] = useState(false);
 	const dispatch = useDispatch();
 	const isFetchingMetrics = useSelector(getMetricsIsFetching);
 	const isFetchingMemberChat = useSelector(getIsFetchingChatSelector);
-	const isFetchingUser = useSelector(getUserIsFetching);
+	// const isFetchingUser = useSelector(getUserIsFetching);
 	const user = useSelector(getUserSelector);
 
 	useEffect(() => {
@@ -49,10 +51,16 @@ const HomeScreen = ({ navigation }) => {
 	}, [dispatch]);
 
 	const handleShiftChangePress = () => {
-		navigation.navigate(screens.BottomModal, {
-			modalType: modalTypes.SHIFT_CHANGE,
-		});
+		setIsShowShiftChange(true);
 	};
+
+	if (!user['FirstName']) {
+		return (
+			<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+				<ActivityIndicator color={'#1FB8F1'} size="large" />
+			</View>
+		);
+	}
 
 	return (
 		<SafeAreaView style={styles.container}>
@@ -101,6 +109,9 @@ const HomeScreen = ({ navigation }) => {
 					<MyPerfomance style={{ marginBottom: 54 }} />
 				)}
 			</ScrollPage>
+			{isShowShiftChange && (
+				<ShiftModal onClose={() => setIsShowShiftChange(false)} hasVisible={isShowShiftChange} />
+			)}
 		</SafeAreaView>
 	);
 };

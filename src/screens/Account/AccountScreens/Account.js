@@ -3,7 +3,6 @@ import {
 	StyleSheet,
 	SafeAreaView,
 	View,
-	Button,
 	TextInput,
 	Text,
 	Image,
@@ -13,6 +12,8 @@ import ScrollPage from '../../../hoc/ScrollPage';
 import AvatarUser from '../../Home/components/AvatarUser';
 import Typography from '../../../components/Text/Typography';
 import SpacerLine from '../../../components/SpacerLine';
+import { useNavigation } from '@react-navigation/native';
+import screens from '../../../screens';
 
 const user = {
 	image: '',
@@ -52,7 +53,14 @@ const styles = StyleSheet.create({
 });
 
 const Account = () => {
+	const navigation = useNavigation();
 	const arrowRight = require('../../../assets/icons/arrow.png');
+
+	const goToPerfomance = () => {
+		navigation.navigate(screens.AccountsRoot, {
+			screen: screens.AccountPerfomance,
+		});
+	};
 	return (
 		<SafeAreaView style={styles.container}>
 			<ScrollPage>
@@ -66,6 +74,7 @@ const Account = () => {
 				<Text style={{ fontSize: 18, fontWeight: '400', marginTop: 21 }}>Call center agent</Text>
 				<SpacerLine style={{ marginTop: 11 }} />
 				<TouchableOpacity
+					onPress={goToPerfomance}
 					style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}
 				>
 					<Text

@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import shiftActions from '../../../store/shifts/actions';
 import Typography from '../../../components/Text/Typography';
 import CustomButton from '../../../components/CustomButton';
+import ShiftModal from '../../Modals/components/ShiftModal';
 
 const styles = StyleSheet.create({
 	container: {
@@ -45,7 +46,7 @@ const styles = StyleSheet.create({
 	},
 });
 
-const ShiftItem = item => {
+const ShiftItem = ({ item, onShiftPress }) => {
 	const user = require('../../../assets/icons/user.png');
 
 	return (
@@ -89,7 +90,7 @@ const ShiftItem = item => {
 				<Typography variant="h4" style={{ marginTop: 15 }}>
 					Acknowledged
 				</Typography>
-				<CustomButton title="Shift Change" />
+				<CustomButton onPress={onShiftPress} title="Shift Change" />
 			</View>
 		</TouchableOpacity>
 	);
@@ -97,6 +98,7 @@ const ShiftItem = item => {
 
 const Shifts = () => {
 	const dispatch = useDispatch();
+	const [hasShowShiftModal, setHasShowShiftModal] = useState(false);
 	const [mode, setMode] = useState('Assigned');
 	const [end, setEnd] = useState('2021-07-21T11:38:59');
 	const { items, isFetching } = useSelector(state => state.shifts);
@@ -117,7 +119,9 @@ const Shifts = () => {
 				onRefresh={fetchShifts}
 				onEndReachedThreshold={0.25}
 				refreshing={false}
-				renderItem={({ item }) => <ShiftItem item={item} />}
+				renderItem={({ item }) => (
+					<ShiftItem onShiftPress={() => setHasShowShiftModal(true)} item={item} />
+				)}
 				ListFooterComponent={isFetching && <ActivityIndicator color={'#1FB8F1'} size="large" />}
 				ListEmptyComponent={() =>
 					!isFetching ? (
@@ -127,6 +131,9 @@ const Shifts = () => {
 					) : null
 				}
 			/>
+			{hasShowShiftModal && (
+				<ShiftModal hasVisible={hasShowShiftModal} onClose={() => setHasShowShiftModal(false)} />
+			)}
 		</SafeAreaView>
 	);
 };
