@@ -43,7 +43,7 @@ const pageOptions2 = ({ route }) => {
 		headerLeft: () => (
 			<TouchableOpacity
 				hitSlop={{ top: 16, left: 16, bottom: 16, right: 16 }}
-				onPress={() => navigation.navigate(screens.TeamRoot, { screen: screens.Team })}
+				onPress={() => navigation.navigate(screens.AccountsRoot, { screen: screens.Account })}
 			>
 				<Image source={leftArrow} style={{ width: 18, height: 23, marginLeft: 6 }} />
 			</TouchableOpacity>
