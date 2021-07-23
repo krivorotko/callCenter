@@ -91,7 +91,7 @@ const TabsScreens = () => {
 				inactiveTintColor: 'lightgray',
 				style: {
 					backgroundColor: '#1FB8F1',
-					paddingBottom: Platform.OS === 'ios' ? 15 : 10,
+					paddingBottom: Platform.OS === 'ios' ? 15 : 3,
 					paddingTop: Platform.OS === 'ios' ? 18 : 20,
 				},
 			}}
