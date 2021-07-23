@@ -93,7 +93,7 @@ const TeamListItem = ({ item, onPress = () => {} }) => {
 			</View>
 			<View styles={styles.messageWrapper}>
 				<Image source={messages} style={styles.messageImage} />
-				<Text style={styles.messageCounter}>5</Text>
+				<Text style={styles.messageCounter}>1</Text>
 			</View>
 		</TouchableOpacity>
 	);
