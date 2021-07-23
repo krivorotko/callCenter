@@ -15,7 +15,7 @@ const pageOptions = ({ route }) => {
 	return {
 		headerTitle: children => (
 			<View style={{ maxWidth: width - spaceTakenByIcons }}>
-				<Typography numberOfLines={1} variant="h3" color="white">
+				<Typography center numberOfLines={1} variant="h3" color="white">
 					{route.name}
 				</Typography>
 			</View>

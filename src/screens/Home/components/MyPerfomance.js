@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
+import { View, StyleSheet, FlatList, TouchableOpacity, Image, Text } from 'react-native';
 import Typography from '../../../components/Text/Typography';
 import { useSelector } from 'react-redux';
 import { getMetricsSelector } from '../../../store/metrics/selectors';
@@ -35,7 +35,9 @@ const ItemMember = ({ item }) => {
 	return (
 		<View style={styles.shadow}>
 			<TouchableOpacity style={styles.member}>
-				<Typography variant="body1">{item['Key']}</Typography>
+				<Text style={{ fontSize: 16, lineHeight: 19 }} variant="body1">
+					{item['Key']}
+				</Text>
 				<View
 					style={{
 						flexDirection: 'row',
@@ -58,7 +60,7 @@ const MyPerfomance = ({ style }) => {
 
 	return (
 		<View style={[styles.container, style]}>
-			<Typography variant="large">My Perfomance</Typography>
+			<Text style={{ fontWeight: '500', fontSize: 24, lineHeight: 28 }}>My Perfomance</Text>
 			<FlatList
 				style={{ marginHorizontal: -16, marginTop: 11 }}
 				horizontal

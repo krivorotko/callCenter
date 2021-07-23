@@ -17,14 +17,14 @@ const styles = StyleSheet.create({
 	},
 });
 
-const StatDay = ({ style = {} }) => {
+const StatDay = ({ style = {}, day, date }) => {
 	const chartImage = require('../../../assets/icons/chart.png');
 	const dates = ['8 am', '9 am', '10 am', '11 am', '12 am', '1 pm', '2 pm', '3 pm'];
 	return (
 		<View style={style}>
 			<View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
-				<Text style={styles.title}>Monday </Text>
-				<Text style={styles.description}>July 28, 8:30 am- 4:00 pm</Text>
+				<Text style={styles.title}>{day} </Text>
+				<Text style={styles.description}>{date}</Text>
 			</View>
 
 			<Image source={chartImage} style={{ height: 48, width: '100%', marginTop: 8 }} />

@@ -42,13 +42,13 @@ const pageOptions2 = ({ route }) => {
 	return {
 		headerTitle: children => (
 			<View style={{ maxWidth: width - spaceTakenByIcons }}>
-				<Typography numberOfLines={1} variant="h3" color="white">
+				<Typography center numberOfLines={1} variant="h3" color="white">
 					{route.name}
 				</Typography>
 			</View>
 		),
 		headerRight: () => <></>,
-
+		headerLeft: () => <></>,
 		headerBackground: () => (
 			<View style={{ ...StyleSheet.absoluteFill, backgroundColor: styleConstants.MAIN_COLOR }} />
 		),

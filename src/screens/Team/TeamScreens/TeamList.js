@@ -47,6 +47,7 @@ const styles = StyleSheet.create({
 		borderRadius: 50,
 		backgroundColor: '#727171',
 		marginRight: 4,
+		marginTop: 5,
 	},
 	messageWrapper: {
 		position: 'relative',
@@ -78,10 +79,16 @@ const TeamListItem = ({ item, onPress = () => {} }) => {
 				<Image style={styles.shiftIcon} source={user} />
 				<View style={[isActive && styles.online, !isActive && styles.offline]} />
 				<View>
-					<Typography numberOfLines={1} variant="h3">
+					<Text
+						style={{ fontSize: 18, fontWeight: '500', lineHeight: 21 }}
+						numberOfLines={1}
+						variant="h3"
+					>
 						{item.UserName}
-					</Typography>
-					<Typography>Нет данных</Typography>
+					</Text>
+					<Text style={{ fontWeight: '400', lineHeight: 16, fontSize: 14, marginTop: 5 }}>
+						No data
+					</Text>
 				</View>
 			</View>
 			<View styles={styles.messageWrapper}>
@@ -128,12 +135,14 @@ const TeamList = ({ navigation }) => {
 				ListEmptyComponent={() =>
 					!isFetching ? (
 						<Typography center variant="h4">
-							Нет данных
+							No data
 						</Typography>
 					) : null
 				}
 				ItemSeparatorComponent={() => (
-					<SpacerLine style={{ height: 1, marginLeft: 18, padding: 0, margin: 0 }} />
+					<SpacerLine
+						style={{ height: 1, marginVertical: 0, marginLeft: 18, padding: 0, margin: 0 }}
+					/>
 				)}
 				keyExtractor={item => `${item.UserName}`}
 			/>

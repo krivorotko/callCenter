@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
+import { View, StyleSheet, FlatList, TouchableOpacity, Image, Text } from 'react-native';
 import Typography from '../../../components/Text/Typography';
 import screens from '../../index';
 import { useNavigation } from '@react-navigation/native';
@@ -48,12 +48,20 @@ const ItemMember = ({ item, onPress }) => {
 		<TouchableOpacity style={styles.member} onPress={onPress}>
 			<Image source={user} style={styles.memberIcon} />
 			<View style={styles.memberInfo}>
-				<Typography numberOfLines={1} variant="h3">
+				<Text
+					style={{ fontWeight: '500', fontSize: 18, lineHeight: 21 }}
+					numberOfLines={1}
+					variant="h3"
+				>
 					{firstName}
-				</Typography>
-				<Typography numberOfLines={1} variant="h3">
+				</Text>
+				<Text
+					style={{ fontWeight: '500', fontSize: 18, lineHeight: 21 }}
+					numberOfLines={1}
+					variant="h3"
+				>
 					{lastName}
-				</Typography>
+				</Text>
 			</View>
 		</TouchableOpacity>
 	);
@@ -72,7 +80,9 @@ const TeamMembers = ({ style }) => {
 	};
 	return (
 		<View style={[styles.container, style]}>
-			<Typography variant="large">Shift team members</Typography>
+			<Text style={{ fontWeight: '500', fontSize: 24, lineHeight: 28 }} variant="large">
+				Shift team members
+			</Text>
 			<FlatList
 				style={{ marginHorizontal: -16, marginTop: 11 }}
 				horizontal
@@ -82,7 +92,7 @@ const TeamMembers = ({ style }) => {
 				}}
 				ListEmptyComponent={() => (
 					<Typography style={{ marginHorizontal: 16 }} center variant="h4">
-						Нет данных
+						No data
 					</Typography>
 				)}
 				keyExtractor={item => `${item['UserName']}`}

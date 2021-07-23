@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, SafeAreaView, View, Button, TextInput, ActivityIndicator } from 'react-native';
+import {
+	StyleSheet,
+	SafeAreaView,
+	View,
+	Button,
+	TextInput,
+	ActivityIndicator,
+	Text,
+} from 'react-native';
 import Typography from '../../../components/Text/Typography';
 import ScrollPage from '../../../hoc/ScrollPage';
 import AvatarUser from '../components/AvatarUser';
@@ -68,21 +76,25 @@ const HomeScreen = ({ navigation }) => {
 				<View style={styles.userInfo}>
 					<AvatarUser style={{ marginRight: 7 }} />
 					<View>
-						<Typography variant="large">{user['FirstName']}</Typography>
-						<Typography variant="large">{user['LastName']}</Typography>
+						<Text style={{ fontWeight: '500', fontSize: 28, lineHeight: 32 }}>
+							{user['FirstName']}
+						</Text>
+						<Text style={{ fontWeight: '500', fontSize: 28, lineHeight: 32 }}>
+							{user['LastName']}
+						</Text>
 					</View>
 				</View>
-				<Typography variant="h3" style={styles.description}>
-					{user['Department'] || 'Нет данных'}
-				</Typography>
+				<Text style={{ marginTop: 15, fontSize: 18, lineHeight: 21 }}>
+					{user['Department'] || 'No data'}
+				</Text>
 				<SpacerLine />
 				{informations.map(information => (
 					<WorkingInformation style={{ marginTop: 10 }} information={information} />
 				))}
 				<SpacerLine style={{ marginTop: 15 }} />
-				<Typography variant="large">Status</Typography>
+				<Text style={{ fontWeight: '500', fontSize: 24, lineHeight: 28 }}>Status</Text>
 				<View style={{ marginTop: 10, flexDirection: 'row', justifyContent: 'space-between' }}>
-					<Typography variant="large">Clocked In</Typography>
+					<Text style={{ fontWeight: '400', fontSize: 24, lineHeight: 28 }}>Clocked In</Text>
 					<CustomButton onPress={handleShiftChangePress} title="Shift Change" />
 				</View>
 				<TextInput
@@ -136,6 +148,9 @@ const styles = StyleSheet.create({
 		backgroundColor: '#F3F3F3',
 		borderRadius: 5,
 		marginTop: 18,
+		fontWeight: '400',
+		fontSize: 16,
+		lineHeight: 18,
 	},
 });
 

@@ -1,12 +1,13 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import Typography from '../../../components/Text/Typography';
+import { StyleSheet, Text, View } from 'react-native';
 
 const WorkingInformation = ({ information = {}, style = {} }) => {
 	return (
 		<View style={[styles.container, style]}>
-			<Typography variant="large">{information.name}</Typography>
-			<Typography variant="h3">{information.description}</Typography>
+			<Text style={{ fontWeight: '500', fontSize: 24, lineHeight: 28 }}>{information.name}</Text>
+			<Text style={{ fontWeight: '400', fontSize: 16, lineHeight: 18 }}>
+				{information.description}
+			</Text>
 		</View>
 	);
 };

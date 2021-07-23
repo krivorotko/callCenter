@@ -34,11 +34,11 @@ const Stats = () => {
 					<Image style={{ marginTop: 11, height: 31, width: '100%' }} source={calendar} />
 				</TouchableOpacity>
 				<View>
-					<StatDay style={{ marginTop: 15 }} />
-					<StatDay style={{ marginTop: 15 }} />
-					<StatDay style={{ marginTop: 15 }} />
-					<StatDay style={{ marginTop: 15 }} />
-					<StatDay style={{ marginTop: 15 }} />
+					<StatDay day={'Monday'} date={'July 28, 8:30 am- 4:00 pm'} style={{ marginTop: 15 }} />
+					<StatDay style={{ marginTop: 15 }} day={'Tuesday'} date={'July 29, 8:30 am- 4:00 pm'} />
+					<StatDay style={{ marginTop: 15 }} day={'Wednesday'} date={'July 30, 8:30 am- 4:00 pm'} />
+					<StatDay style={{ marginTop: 15 }} day={'Thursday'} date={'July 31, 8:30 am- 4:00 pm'} />
+					<StatDay style={{ marginTop: 15 }} day={'Friday'} date={'August 1, 8:30 am- 4:00 pm'} />
 				</View>
 
 				<Image

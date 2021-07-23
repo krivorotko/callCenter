@@ -6,7 +6,6 @@ import { Dimensions, View, StyleSheet } from 'react-native';
 import Typography from '../../components/Text/Typography';
 import styleConstants from '../../styles/styleConstants';
 
-
 const HomeStack = createStackNavigator();
 
 const { width } = Dimensions.get('window');
@@ -14,11 +13,13 @@ const spaceTakenByIcons = 74 + 32; // headerLeft + headerRight icons + margins +
 
 const pageOptions = ({ route }) => {
 	return {
-		headerTitle: (children) => (<View style={{ maxWidth: width - spaceTakenByIcons }}>
-			<Typography numberOfLines={1} variant='h3' color='white'>
-				{route.name}
-			</Typography>
-		</View>),
+		headerTitle: children => (
+			<View style={{ maxWidth: width - spaceTakenByIcons }}>
+				<Typography center numberOfLines={1} variant="h3" color="white">
+					{route.name}
+				</Typography>
+			</View>
+		),
 		headerRight: () => <></>,
 		headerBackground: () => (
 			<View style={{ ...StyleSheet.absoluteFill, backgroundColor: styleConstants.MAIN_COLOR }} />

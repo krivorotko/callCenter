@@ -143,12 +143,19 @@ const TeamMessages = () => {
 					<View style={{ flexDirection: 'row' }}>
 						<Image source={iconUser} style={styles.userIcon} />
 						<View style={{ width: 150 }}>
-							<Typography numberOfLines={1} variant="h3">
+							<Text
+								style={{ fontWeight: '500', fontSize: 18, lineHeight: 21 }}
+								numberOfLines={1}
+								variant="h3"
+							>
 								{userChat['UserName']}
-							</Typography>
-							<Typography style={{ width: 150 }} numberOfLines={1}>
+							</Text>
+							<Text
+								style={{ width: 150, fontSize: 14, fontWeight: '400', lineHeight: 16 }}
+								numberOfLines={1}
+							>
 								{userChat['Login']}
-							</Typography>
+							</Text>
 						</View>
 					</View>
 					{hasOnline && (

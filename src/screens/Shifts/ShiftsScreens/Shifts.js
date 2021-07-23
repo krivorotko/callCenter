@@ -7,12 +7,14 @@ import {
 	TouchableOpacity,
 	Image,
 	ActivityIndicator,
+	Text,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import shiftActions from '../../../store/shifts/actions';
 import Typography from '../../../components/Text/Typography';
 import CustomButton from '../../../components/CustomButton';
 import ShiftModal from '../../Modals/components/ShiftModal';
+import moment from 'moment';
 
 const styles = StyleSheet.create({
 	container: {
@@ -47,6 +49,8 @@ const styles = StyleSheet.create({
 });
 
 const ShiftItem = ({ item, onShiftPress }) => {
+	const start = moment(item['Start']);
+	const finish = moment(item['Stop']);
 	const user = require('../../../assets/icons/user.png');
 
 	return (
@@ -57,10 +61,15 @@ const ShiftItem = ({ item, onShiftPress }) => {
 					alignItems: 'flex-end',
 				}}
 			>
-				<Typography style={{ marginRight: 7 }} variant="h2">
-					Monday
-				</Typography>
-				<Typography variant="h4">July 28, 8:30 am- 4:00 pm</Typography>
+				<Text
+					style={{ marginRight: 7, fontWeight: '400', fontSize: 24, lineHeight: 28 }}
+					variant="h2"
+				>
+					{start.format('dddd')}
+				</Text>
+				<Text style={{ fontWeight: '400', fontSize: 14, lineHeight: 16 }} variant="h4">
+					{start.format('MMMM D, hh:mm')} - {finish.format('hh:mm')}
+				</Text>
 			</View>
 			<View
 				style={{
@@ -70,16 +79,27 @@ const ShiftItem = ({ item, onShiftPress }) => {
 			>
 				<Image source={user} style={styles.shiftIcon} />
 				<View>
-					<Typography variant="h3">Jack Smith</Typography>
-					<Typography style={{ marginTop: 6 }} variant="h4">
+					<Text
+						style={{ width: 169, fontWeight: '500', fontSize: 18, lineHeight: 21 }}
+						numberOfLines={1}
+					>
+						Jack Smith
+					</Text>
+					<Text
+						style={{ marginTop: 6, fontWeight: '400', fontSize: 18, lineHeight: 21 }}
+						variant="h4"
+					>
 						Call center agent
-					</Typography>
-					<Typography variant="h4">Sales/Technical Support</Typography>
+					</Text>
+					<Text
+						style={{ marginTop: 6, fontWeight: '400', fontSize: 18, lineHeight: 21 }}
+						variant="h4"
+					>
+						Sales/Technical Support
+					</Text>
 				</View>
 			</View>
-			<Typography variant="h3" style={{ marginTop: 15 }}>
-				Status
-			</Typography>
+			<Text style={{ marginTop: 15, fontWeight: '500', fontSize: 18, lineHeight: 21 }}>Status</Text>
 			<View
 				style={{
 					flexDirection: 'row',
@@ -87,9 +107,9 @@ const ShiftItem = ({ item, onShiftPress }) => {
 					justifyContent: 'space-between',
 				}}
 			>
-				<Typography variant="h4" style={{ marginTop: 15 }}>
+				<Text style={{ marginTop: 15, fontWeight: '400', fontSize: 18, lineHeight: 21 }}>
 					Acknowledged
-				</Typography>
+				</Text>
 				<CustomButton onPress={onShiftPress} title="Shift Change" />
 			</View>
 		</TouchableOpacity>
@@ -126,7 +146,7 @@ const Shifts = () => {
 				ListEmptyComponent={() =>
 					!isFetching ? (
 						<Typography center variant="h4">
-							Нет данных
+							No data
 						</Typography>
 					) : null
 				}
