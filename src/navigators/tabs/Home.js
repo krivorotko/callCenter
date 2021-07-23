@@ -14,7 +14,7 @@ const spaceTakenByIcons = 74 + 32; // headerLeft + headerRight icons + margins +
 const pageOptions = ({ route }) => {
 	return {
 		headerTitle: children => (
-			<View style={{ maxWidth: width - spaceTakenByIcons }}>
+			<View style={{ width }}>
 				<Typography center numberOfLines={1} variant="h3" color="white">
 					{route.name}
 				</Typography>
